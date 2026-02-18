@@ -20,8 +20,22 @@ Dieses MVP ersetzt Papier + Excel durch eine einfache Weboberfläche ohne Login.
 - Standardpfad: `./data/db.json`
 - Anpassbar über `DATA_FILE_PATH`
 
-## Dokploy Hinweis
-Für persistente Daten ein Volume mounten und `DATA_FILE_PATH` auf den gemounteten Pfad setzen, z. B. `/app/data/db.json`.
+## Dokploy Deployment
+Ja, für Dokploy nutzt du am besten ein `Dockerfile` (ist jetzt enthalten).
+
+Empfohlene Einstellungen in Dokploy:
+- **Build Type**: Dockerfile
+- **Port**: `3000`
+- **Env**:
+  - `NODE_ENV=production`
+  - `DATA_FILE_PATH=/app/data/db.json`
+- **Persistent Volume**: auf `/app/data` mounten
+
+Warum Volume: Die App speichert Daten in JSON. Ohne Volume wären Daten nach Redeploy/Container-Neustart weg.
+
+Optional lokal testen:
+1. `docker build -t auto-anlage .`
+2. `docker run -p 3000:3000 -e DATA_FILE_PATH=/app/data/db.json auto-anlage`
 
 ## Wichtige Grenzen des MVP
 - Keine Benutzerverwaltung/Login
