@@ -1,0 +1,12 @@
+- [x] Verify that the copilot-instructions.md file in the .github directory is created.
+- [x] Clarify Project Requirements (Next.js + TypeScript, kein Login, JSON-Persistenz, Dashboard + Rechnungen).
+- [x] Scaffold the Project (manuell, da create-next-app im Ordnernamen-Case blockierte).
+- [x] Customize the Project (Auftragsformular, Dashboard, Rechnungsworkflow, Druck/PDF).
+- [x] Install Required Extensions (keine zusätzlichen Extension-Vorgaben vorhanden).
+- [x] Compile the Project (`npm run build` erfolgreich).
+- [x] Create and Run Task (übersprungen: für dieses MVP nicht zwingend erforderlich).
+- [x] Launch the Project (nicht automatisch gestartet; Start via `npm run dev`).
+- [x] Ensure Documentation is Complete (README und diese Datei aktualisiert, Kommentare entfernt).
+- Work through each checklist item systematically.
+- Keep communication concise and focused.
+- Follow development best practices.

@@ -1,0 +1,330 @@
+{
+  "customers": [
+    {
+      "id": "cust_bmw_muc",
+      "name": "BMW Niederlassung München",
+      "shortName": "BMW München",
+      "email": "abrechnung@bmw-muenchen.de",
+      "phone": "+49 89 1234567",
+      "createdAt": "2026-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "cust_audi_ffm",
+      "name": "Audi Zentrum Frankfurt",
+      "shortName": "Audi FFM",
+      "email": "buchhaltung@audi-frankfurt.de",
+      "phone": "+49 69 9876543",
+      "createdAt": "2026-01-20T14:30:00.000Z"
+    },
+    {
+      "id": "cust_mercedes_hh",
+      "name": "Mercedes-Benz Hamburg",
+      "shortName": "MB Hamburg",
+      "email": "rechnung@mb-hamburg.de",
+      "createdAt": "2026-02-01T09:00:00.000Z"
+    },
+    {
+      "id": "cust_8ef9e167-092d-4760-8f7d-b567fa42ee94",
+      "name": "Porsche",
+      "shortName": "Porsche",
+      "email": "christian.kazor@gmail.com",
+      "phone": "",
+      "createdAt": "2026-02-18T16:57:14.038Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_19204878-6077-4188-ac78-7f41f8c4a0db",
+      "customerId": "cust_mercedes_hh",
+      "licensePlate": "CCCC",
+      "vehicleModel": "cccc",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "",
+      "status": "completed",
+      "createdAt": "2026-02-18T16:16:41.891Z",
+      "completedAt": "2026-02-18T12:00:00.000Z",
+      "invoiceId": "inv_fb1a5624-293b-40eb-8116-593c22044fee"
+    },
+    {
+      "id": "ord_8ea1729a-cceb-4ea6-b419-25ff8b9d03cf",
+      "customerId": "cust_mercedes_hh",
+      "licensePlate": "BBBB",
+      "vehicleModel": "bbbb",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "",
+      "status": "completed",
+      "createdAt": "2026-02-18T16:16:34.070Z",
+      "completedAt": "2026-02-18T12:00:00.000Z",
+      "invoiceId": "inv_fb1a5624-293b-40eb-8116-593c22044fee"
+    },
+    {
+      "id": "ord_2b3fbbc9-d2ee-49af-8370-08e52b6bcdd2",
+      "customerId": "cust_mercedes_hh",
+      "licensePlate": "AAAA",
+      "vehicleModel": "aaaa",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "",
+      "status": "completed",
+      "createdAt": "2026-02-18T16:16:25.674Z",
+      "completedAt": "2026-02-18T12:00:00.000Z",
+      "invoiceId": "inv_fb1a5624-293b-40eb-8116-593c22044fee"
+    },
+    {
+      "id": "ord_ec9e9a76-903b-4ea6-a597-0937be63c7d6",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "SDS",
+      "vehicleModel": "sdsd",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "sdsd",
+      "status": "new",
+      "createdAt": "2026-02-18T11:16:47.581Z"
+    },
+    {
+      "id": "ord_8c7fa078-b3ca-4d39-9926-5ace5c8db1b5",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "SDSDSD",
+      "vehicleModel": "sdsdsd",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "",
+      "status": "new",
+      "createdAt": "2026-02-18T11:16:43.663Z"
+    },
+    {
+      "id": "ord_b806f08c-40c0-49db-bd0b-288092748afd",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "MASDSD",
+      "vehicleModel": "sdsdsd",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "",
+      "status": "new",
+      "createdAt": "2026-02-18T11:16:38.356Z"
+    },
+    {
+      "id": "ord_001",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "M-BW-1234",
+      "vehicleModel": "BMW 320d",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "polish",
+        "seal"
+      ],
+      "notes": "Neuwagen-Aufbereitung für Ausstellung",
+      "status": "completed",
+      "createdAt": "2026-02-10T08:15:00.000Z",
+      "completedAt": "2026-02-10T12:30:00.000Z"
+    },
+    {
+      "id": "ord_002",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "M-BW-5678",
+      "vehicleModel": "BMW X5",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "engine"
+      ],
+      "notes": "Vorbereitung für Probefahrt-Flotte",
+      "status": "completed",
+      "createdAt": "2026-02-10T09:00:00.000Z",
+      "completedAt": "2026-02-10T14:20:00.000Z"
+    },
+    {
+      "id": "ord_003",
+      "customerId": "cust_bmw_muc",
+      "licensePlate": "M-BW-9012",
+      "vehicleModel": "BMW M3",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Sportwagen vor Übergabe",
+      "status": "completed",
+      "createdAt": "2026-02-14T10:30:00.000Z",
+      "completedAt": "2026-02-14T15:45:00.000Z",
+      "invoiceId": "inv_6bbcf9da-1745-43c7-ba63-ccf01b85ed8b"
+    },
+    {
+      "id": "ord_004",
+      "customerId": "cust_audi_ffm",
+      "licensePlate": "F-AU-2345",
+      "vehicleModel": "Audi A4 Avant",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Gebrauchtwagen für Verkauf",
+      "status": "completed",
+      "createdAt": "2026-02-11T11:20:00.000Z",
+      "completedAt": "2026-02-11T14:10:00.000Z",
+      "invoiceId": "inv_d4838f03-839e-4697-ab0a-5fd00e7fa098"
+    },
+    {
+      "id": "ord_005",
+      "customerId": "cust_audi_ffm",
+      "licensePlate": "F-AU-6789",
+      "vehicleModel": "Audi Q7",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "seal",
+        "engine"
+      ],
+      "notes": "Premium-SUV für Showroom",
+      "status": "completed",
+      "createdAt": "2026-02-15T08:00:00.000Z",
+      "completedAt": "2026-02-15T13:30:00.000Z",
+      "invoiceId": "inv_d4838f03-839e-4697-ab0a-5fd00e7fa098"
+    },
+    {
+      "id": "ord_006",
+      "customerId": "cust_mercedes_hh",
+      "licensePlate": "HH-MB-1111",
+      "vehicleModel": "Mercedes C200",
+      "baseServiceId": "premium",
+      "addonServiceIds": [],
+      "notes": "Kundenfahrzeug nach Service",
+      "status": "new",
+      "createdAt": "2026-02-16T10:00:00.000Z"
+    },
+    {
+      "id": "ord_007",
+      "customerId": "cust_mercedes_hh",
+      "licensePlate": "HH-MB-2222",
+      "vehicleModel": "Mercedes E-Klasse",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Innenraum-Auffrischung",
+      "status": "completed",
+      "createdAt": "2026-02-12T09:30:00.000Z",
+      "completedAt": "2026-02-12T12:00:00.000Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv_d4838f03-839e-4697-ab0a-5fd00e7fa098",
+      "invoiceNumber": "RE-2026-00001",
+      "customerId": "cust_audi_ffm",
+      "customerName": "Audi Zentrum Frankfurt",
+      "orderIds": [
+        "ord_004",
+        "ord_005"
+      ],
+      "lineItems": [
+        {
+          "orderId": "ord_004",
+          "licensePlate": "F-AU-2345",
+          "vehicleModel": "Audi A4 Avant",
+          "label": "Innen- & Außenreinigung",
+          "price": 79
+        },
+        {
+          "orderId": "ord_004",
+          "licensePlate": "F-AU-2345",
+          "vehicleModel": "Audi A4 Avant",
+          "label": "Ozonbehandlung",
+          "price": 39
+        },
+        {
+          "orderId": "ord_005",
+          "licensePlate": "F-AU-6789",
+          "vehicleModel": "Audi Q7",
+          "label": "Showroom-Komplettpaket",
+          "price": 249
+        },
+        {
+          "orderId": "ord_005",
+          "licensePlate": "F-AU-6789",
+          "vehicleModel": "Audi Q7",
+          "label": "Versiegelung",
+          "price": 89
+        },
+        {
+          "orderId": "ord_005",
+          "licensePlate": "F-AU-6789",
+          "vehicleModel": "Audi Q7",
+          "label": "Motorraumreinigung",
+          "price": 49
+        }
+      ],
+      "subtotal": 505,
+      "total": 505,
+      "status": "open",
+      "createdAt": "2026-02-17T18:38:44.708Z"
+    },
+    {
+      "id": "inv_6bbcf9da-1745-43c7-ba63-ccf01b85ed8b",
+      "invoiceNumber": "RE-2026-00002",
+      "customerId": "cust_bmw_muc",
+      "customerName": "BMW Niederlassung München",
+      "orderIds": [
+        "ord_003"
+      ],
+      "lineItems": [
+        {
+          "orderId": "ord_003",
+          "licensePlate": "M-BW-9012",
+          "vehicleModel": "BMW M3",
+          "label": "Premium-Aufbereitung",
+          "price": 149
+        },
+        {
+          "orderId": "ord_003",
+          "licensePlate": "M-BW-9012",
+          "vehicleModel": "BMW M3",
+          "label": "Lackpolitur",
+          "price": 59
+        }
+      ],
+      "subtotal": 208,
+      "total": 208,
+      "status": "open",
+      "createdAt": "2026-02-17T18:43:30.753Z"
+    },
+    {
+      "id": "inv_fb1a5624-293b-40eb-8116-593c22044fee",
+      "invoiceNumber": "RE-2026-00003",
+      "customerId": "cust_mercedes_hh",
+      "customerName": "Mercedes-Benz Hamburg",
+      "orderIds": [
+        "ord_19204878-6077-4188-ac78-7f41f8c4a0db",
+        "ord_8ea1729a-cceb-4ea6-b419-25ff8b9d03cf",
+        "ord_2b3fbbc9-d2ee-49af-8370-08e52b6bcdd2"
+      ],
+      "lineItems": [
+        {
+          "orderId": "ord_19204878-6077-4188-ac78-7f41f8c4a0db",
+          "licensePlate": "CCCC",
+          "vehicleModel": "cccc",
+          "label": "Innen- & Außenreinigung",
+          "price": 79
+        },
+        {
+          "orderId": "ord_8ea1729a-cceb-4ea6-b419-25ff8b9d03cf",
+          "licensePlate": "BBBB",
+          "vehicleModel": "bbbb",
+          "label": "Innen- & Außenreinigung",
+          "price": 79
+        },
+        {
+          "orderId": "ord_2b3fbbc9-d2ee-49af-8370-08e52b6bcdd2",
+          "licensePlate": "AAAA",
+          "vehicleModel": "aaaa",
+          "label": "Innen- & Außenreinigung",
+          "price": 79
+        }
+      ],
+      "subtotal": 237,
+      "total": 237,
+      "status": "paid",
+      "createdAt": "2026-02-18T16:17:58.048Z",
+      "paidAt": "2026-02-18T16:41:00.354Z"
+    }
+  ]
+}

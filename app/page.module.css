@@ -1,0 +1,270 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.pageStack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.pageHeader {
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.pageHeader h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.5px;
+}
+
+.pageHeader a {
+  padding: 10px 20px;
+  background: #0a0a0a;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.pageHeader a:hover {
+  background: #262626;
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.card h2 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.3px;
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.kpiValue {
+  font-size: 42px;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.kpiValue small {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-left: 8px;
+  letter-spacing: 0;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-top: 16px;
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tableWrap thead {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tableWrap th {
+  text-align: left;
+  padding: 14px 18px;
+  font-weight: 700;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+}
+
+.tableWrap td {
+  padding: 16px 18px;
+  border-top: 1px solid #e5e7eb;
+  color: #0a0a0a;
+}
+
+.tableWrap tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badgePaid {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badgeOpen {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.badgeNone {
+  background: #f8f9fa;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  background: #ffffff;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+}
+
+.tabButton:hover {
+  background: #f8f9fa;
+  color: #0a0a0a;
+  transform: none;
+  box-shadow: none;
+}
+
+.tabButtonActive {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+  border-color: var(--accent);
+}
+
+.tabButtonActive:hover {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+}
+
+
+.weekSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.weekArrow {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.weekArrow:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+.weekInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.weekRange {
+  color: var(--text-soft);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.customerList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.customerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.customerRow input[type='checkbox'] {
+  margin: 0;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
