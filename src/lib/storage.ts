@@ -2,12 +2,194 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { allServices } from "@/data/catalog";
-import { Customer, Database, Invoice, InvoiceLineItem, Order } from "@/types/domain";
+import {
+  CompanyProfile,
+  Customer,
+  Database,
+  Invoice,
+  InvoiceLineItem,
+  Order,
+  ProgramNumber
+} from "@/types/domain";
 
-const defaultDb: Database = { customers: [], orders: [], invoices: [] };
+const VAT_RATE = 0.19;
+const defaultCompanyProfile: CompanyProfile = {
+  name: "Auto-Anlage GmbH",
+  address: "Musterstraße 1, 80331 München",
+  email: "rechnung@auto-anlage.de",
+  phone: "+49 89 000000"
+};
+const defaultDb: Database = { companyProfile: defaultCompanyProfile, customers: [], orders: [], invoices: [] };
 const dbFilePath = process.env.DATA_FILE_PATH || path.join(process.cwd(), "data", "db.json");
 
 let writeQueue = Promise.resolve();
+
+function roundCurrency(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
+function toProgramNumber(value: unknown): ProgramNumber {
+  const asNumber = Number(value);
+  if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 6) {
+    return asNumber as ProgramNumber;
+  }
+  return 1;
+}
+
+function inferProgramNumber(baseServiceId: string): ProgramNumber {
+  if (baseServiceId === "basic") return 1;
+  if (baseServiceId === "premium") return 2;
+  if (baseServiceId === "showroom") return 3;
+  return 1;
+}
+
+function normalizeCompanyProfile(value: unknown): CompanyProfile {
+  if (!value || typeof value !== "object") {
+    return defaultCompanyProfile;
+  }
+
+  const source = value as Partial<CompanyProfile>;
+  return {
+    name: String(source.name || defaultCompanyProfile.name),
+    address: source.address ? String(source.address) : defaultCompanyProfile.address,
+    email: source.email ? String(source.email) : defaultCompanyProfile.email,
+    phone: source.phone ? String(source.phone) : defaultCompanyProfile.phone
+  };
+}
+
+function normalizeOrder(value: unknown): Order {
+  const source = (value && typeof value === "object" ? value : {}) as Partial<Order>;
+  const baseServiceId = String(source.baseServiceId || "");
+  return {
+    id: String(source.id || createOrderId()),
+    customerId: String(source.customerId || ""),
+    vin: String(source.vin || "").toUpperCase(),
+    licensePlate: String(source.licensePlate || "").toUpperCase(),
+    programNumber: toProgramNumber(source.programNumber ?? inferProgramNumber(baseServiceId)),
+    vehicleModel: String(source.vehicleModel || ""),
+    baseServiceId,
+    addonServiceIds: Array.isArray(source.addonServiceIds) ? source.addonServiceIds.map(String) : [],
+    notes: source.notes ? String(source.notes) : "",
+    status: source.status === "new" ? "new" : "completed",
+    createdAt: source.createdAt ? String(source.createdAt) : new Date().toISOString(),
+    completedAt: source.completedAt ? String(source.completedAt) : undefined,
+    invoiceId: source.invoiceId ? String(source.invoiceId) : undefined
+  };
+}
+
+function buildInvoiceLineItems(orders: Order[]): InvoiceLineItem[] {
+  return orders.map((order, index) => {
+    const unitNet = getServicePrice(order.baseServiceId);
+    const extrasNet = order.addonServiceIds.reduce((sum, addonId) => sum + getServicePrice(addonId), 0);
+    return {
+      position: index + 1,
+      orderId: order.id,
+      programNumber: order.programNumber,
+      programLabel: getServiceLabel(order.baseServiceId),
+      vin: order.vin,
+      licensePlate: order.licensePlate,
+      unitNet: roundCurrency(unitNet),
+      extrasNet: roundCurrency(extrasNet),
+      totalNet: roundCurrency(unitNet + extrasNet),
+      extrasLabels: order.addonServiceIds.map(getServiceLabel)
+    };
+  });
+}
+
+function normalizeInvoice(value: unknown, db: Database, index: number): Invoice {
+  const source = (value && typeof value === "object" ? value : {}) as Partial<Invoice> & {
+    lineItems?: Array<
+      Partial<InvoiceLineItem> & {
+        label?: string;
+        price?: number;
+      }
+    >;
+  };
+
+  const orderIds = Array.isArray(source.orderIds) ? source.orderIds.map(String) : [];
+  const ordersById = new Map(db.orders.map((order) => [order.id, order]));
+  const linkedOrders = orderIds.map((id) => ordersById.get(id)).filter((order): order is Order => Boolean(order));
+
+  const hasNewFormat = Array.isArray(source.lineItems) && source.lineItems.every((item) => typeof item.totalNet === "number");
+  const lineItems: InvoiceLineItem[] = hasNewFormat
+    ? source.lineItems!.map((item, itemIndex) => {
+        const programNumber = toProgramNumber(item.programNumber);
+        const unitNet = roundCurrency(Number(item.unitNet ?? 0));
+        const extrasNet = roundCurrency(Number(item.extrasNet ?? 0));
+        const totalNet = roundCurrency(Number(item.totalNet ?? unitNet + extrasNet));
+        return {
+          position: Number(item.position ?? itemIndex + 1),
+          orderId: String(item.orderId || linkedOrders[itemIndex]?.id || ""),
+          programNumber,
+          programLabel: String(item.programLabel || linkedOrders[itemIndex]?.baseServiceId || ""),
+          vin: String(item.vin || linkedOrders[itemIndex]?.vin || ""),
+          licensePlate: String(item.licensePlate || linkedOrders[itemIndex]?.licensePlate || ""),
+          unitNet,
+          extrasNet,
+          totalNet,
+          extrasLabels: Array.isArray(item.extrasLabels) ? item.extrasLabels.map(String) : []
+        };
+      })
+    : buildInvoiceLineItems(linkedOrders);
+
+  const subtotalNet = roundCurrency(
+    typeof source.subtotalNet === "number"
+      ? source.subtotalNet
+      : typeof source.subtotal === "number"
+        ? source.subtotal
+        : lineItems.reduce((sum, item) => sum + item.totalNet, 0)
+  );
+  const taxRate = typeof source.taxRate === "number" ? source.taxRate : VAT_RATE;
+  const taxAmount = roundCurrency(
+    typeof source.taxAmount === "number" ? source.taxAmount : subtotalNet * taxRate
+  );
+  const totalGross = roundCurrency(
+    typeof source.totalGross === "number"
+      ? source.totalGross
+      : typeof source.total === "number"
+        ? source.total
+        : subtotalNet + taxAmount
+  );
+
+  const customer = db.customers.find((item) => item.id === source.customerId);
+
+  return {
+    id: String(source.id || createInvoiceId()),
+    invoiceNumber: String(source.invoiceNumber || createInvoiceNumber(index)),
+    issuer: normalizeCompanyProfile(source.issuer ?? db.companyProfile),
+    customerId: String(source.customerId || customer?.id || ""),
+    customerName: String(source.customerName || customer?.name || "Unbekannt"),
+    orderIds,
+    lineItems,
+    subtotalNet,
+    taxRate,
+    taxAmount,
+    totalGross,
+    subtotal: subtotalNet,
+    total: totalGross,
+    status: source.status === "paid" ? "paid" : "open",
+    createdAt: String(source.createdAt || new Date().toISOString()),
+    paidAt: source.paidAt ? String(source.paidAt) : undefined
+  };
+}
+
+function normalizeDb(raw: unknown): Database {
+  const source = (raw && typeof raw === "object" ? raw : {}) as Partial<Database>;
+  const customers = Array.isArray(source.customers) ? source.customers : [];
+  const orders = Array.isArray(source.orders) ? source.orders.map(normalizeOrder) : [];
+  const dbBase: Database = {
+    companyProfile: normalizeCompanyProfile(source.companyProfile),
+    customers,
+    orders,
+    invoices: []
+  };
+
+  const invoices = Array.isArray(source.invoices)
+    ? source.invoices.map((invoice, index) => normalizeInvoice(invoice, dbBase, index))
+    : [];
+
+  return { ...dbBase, invoices };
+}
 
 async function ensureDbFile(): Promise<void> {
   const dir = path.dirname(dbFilePath);
@@ -23,7 +205,7 @@ export async function readDb(): Promise<Database> {
   await ensureDbFile();
   const raw = await readFile(dbFilePath, "utf-8");
   try {
-    return JSON.parse(raw) as Database;
+    return normalizeDb(JSON.parse(raw));
   } catch {
     return defaultDb;
   }
@@ -39,7 +221,7 @@ async function writeDb(db: Database): Promise<void> {
 export async function mutateDb(mutator: (db: Database) => Database | Promise<Database>): Promise<Database> {
   writeQueue = writeQueue.then(async () => {
     const current = await readDb();
-    const updated = await mutator(current);
+    const updated = normalizeDb(await mutator(current));
     await writeDb(updated);
   });
   await writeQueue;
@@ -71,54 +253,36 @@ export function getServicePrice(serviceId: string): number {
   return allServices.find((service) => service.id === serviceId)?.price ?? 0;
 }
 
-// NEU: Erstellt Rechnung aus mehreren Orders
 export function buildInvoiceFromOrders(
   orders: Order[],
   customer: Customer,
-  existingInvoicesCount: number
+  existingInvoicesCount: number,
+  issuer: CompanyProfile
 ): Invoice {
-  const lineItems: InvoiceLineItem[] = [];
-
-  // Für jeden Order: Line Items mit Fahrzeug-Zuordnung
-  for (const order of orders) {
-    const baseItem: InvoiceLineItem = {
-      orderId: order.id,
-      licensePlate: order.licensePlate,
-      vehicleModel: order.vehicleModel,
-      label: getServiceLabel(order.baseServiceId),
-      price: getServicePrice(order.baseServiceId)
-    };
-    lineItems.push(baseItem);
-
-    for (const addonId of order.addonServiceIds) {
-      const addonItem: InvoiceLineItem = {
-        orderId: order.id,
-        licensePlate: order.licensePlate,
-        vehicleModel: order.vehicleModel,
-        label: getServiceLabel(addonId),
-        price: getServicePrice(addonId)
-      };
-      lineItems.push(addonItem);
-    }
-  }
-
-  const subtotal = lineItems.reduce((sum, item) => sum + item.price, 0);
+  const lineItems = buildInvoiceLineItems(orders);
+  const subtotalNet = roundCurrency(lineItems.reduce((sum, item) => sum + item.totalNet, 0));
+  const taxAmount = roundCurrency(subtotalNet * VAT_RATE);
+  const totalGross = roundCurrency(subtotalNet + taxAmount);
 
   return {
     id: createInvoiceId(),
     invoiceNumber: createInvoiceNumber(existingInvoicesCount),
+    issuer,
     customerId: customer.id,
     customerName: customer.name,
-    orderIds: orders.map((o) => o.id),
+    orderIds: orders.map((order) => order.id),
     lineItems,
-    subtotal,
-    total: subtotal,
+    subtotalNet,
+    taxRate: VAT_RATE,
+    taxAmount,
+    totalGross,
+    subtotal: subtotalNet,
+    total: totalGross,
     status: "open",
     createdAt: new Date().toISOString()
   };
 }
 
-// NEU: Findet nicht abgerechnete completed Orders für Wochenabrechnung
 export function findOrdersForWeeklyInvoicing(
   db: Database,
   customerId: string,
@@ -157,7 +321,6 @@ export function findOrdersForWeeklyInvoicing(
   });
 }
 
-// NEU: Erstellt wöchentliche Sammelrechnungen für ausgewählte Kunden
 export async function createWeeklyInvoices(
   customerIds: string[],
   weekStart: string,
@@ -180,7 +343,7 @@ export async function createWeeklyInvoices(
         continue;
       }
 
-      const invoice = buildInvoiceFromOrders(orders, customer, db.invoices.length);
+      const invoice = buildInvoiceFromOrders(orders, customer, db.invoices.length, db.companyProfile);
       createdInvoiceIds.push(invoice.id);
 
       for (const order of orders) {
@@ -202,38 +365,11 @@ export async function createWeeklyInvoices(
   };
 }
 
-// DEPRECATED: Alte Einzelrechnung-Funktion (für Backwards-Kompatibilität)
-export function buildInvoiceFromOrder(order: Order, customerName: string, existingInvoicesCount: number): Invoice {
-  const lineItems: InvoiceLineItem[] = [
-    {
-      orderId: order.id,
-      licensePlate: order.licensePlate,
-      vehicleModel: order.vehicleModel,
-      label: getServiceLabel(order.baseServiceId),
-      price: getServicePrice(order.baseServiceId)
-    },
-    ...order.addonServiceIds.map((addonId) => ({
-      orderId: order.id,
-      licensePlate: order.licensePlate,
-      vehicleModel: order.vehicleModel,
-      label: getServiceLabel(addonId),
-      price: getServicePrice(addonId)
-    }))
-  ];
-
-  const subtotal = lineItems.reduce((sum, item) => sum + item.price, 0);
-
-  return {
-    id: createInvoiceId(),
-    invoiceNumber: createInvoiceNumber(existingInvoicesCount),
-    customerId: order.customerId,
-    customerName,
-    orderIds: [order.id],
-    lineItems,
-    subtotal,
-    total: subtotal,
-    status: "open",
-    createdAt: new Date().toISOString()
-  };
+export function buildInvoiceFromOrder(
+  order: Order,
+  customer: Customer,
+  existingInvoicesCount: number,
+  issuer: CompanyProfile
+): Invoice {
+  return buildInvoiceFromOrders([order], customer, existingInvoicesCount, issuer);
 }
-

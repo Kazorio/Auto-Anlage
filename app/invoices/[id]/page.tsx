@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Invoice } from "@/types/domain";
 
 export default function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -19,6 +19,13 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
       setInvoice(data.invoice);
     });
   }, [params]);
+
+  const programLegend = useMemo(() => {
+    if (!invoice) return [] as Array<[number, string]>;
+    return Array.from(
+      new Map(invoice.lineItems.map((item) => [item.programNumber, item.programLabel])).entries()
+    ).sort((a, b) => a[0] - b[0]);
+  }, [invoice]);
 
   if (error) {
     return (
@@ -39,9 +46,6 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  // Anzahl Aufträge in dieser Rechnung
-  const orderCount = invoice.orderIds?.length || 1;
-
   return (
     <main className="container grid page-stack invoice-sheet">
       <div className="page-header no-print">
@@ -61,18 +65,19 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
           <div className="invoice-number">{invoice.invoiceNumber}</div>
         </div>
 
-        <div className="invoice-meta">
+        <div className="invoice-meta" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
           <div className="invoice-meta-item">
-            <h4>Kunde</h4>
+            <h4>Absender (Firma)</h4>
+            <p>{invoice.issuer.name}</p>
+            {invoice.issuer.address ? <p>{invoice.issuer.address}</p> : null}
+          </div>
+          <div className="invoice-meta-item">
+            <h4>Empfänger</h4>
             <p>{invoice.customerName}</p>
           </div>
           <div className="invoice-meta-item">
             <h4>Datum</h4>
             <p>{new Date(invoice.createdAt).toLocaleDateString("de-DE")}</p>
-          </div>
-          <div className="invoice-meta-item">
-            <h4>Aufträge</h4>
-            <p>{orderCount} Fahrzeug{orderCount !== 1 ? "e" : ""}</p>
           </div>
           <div className="invoice-meta-item">
             <h4>Status</h4>
@@ -86,24 +91,30 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
 
         <div className="invoice-items">
           <h3>Leistungspositionen</h3>
-          
+
           <div className="table-wrap" style={{ marginTop: "16px" }}>
             <table>
               <thead>
                 <tr>
-                  <th>Fahrzeug</th>
-                  <th>Kennzeichen</th>
-                  <th>Leistung</th>
-                  <th style={{ textAlign: "right" }}>Preis</th>
+                  <th>Pos.</th>
+                  <th>Prog.</th>
+                  <th>VIN/KZ</th>
+                  <th style={{ textAlign: "right" }}>Einzelpreis netto</th>
+                  <th style={{ textAlign: "right" }}>Extras netto</th>
+                  <th style={{ textAlign: "right" }}>Gesamtpreis netto</th>
                 </tr>
               </thead>
               <tbody>
                 {invoice.lineItems.map((item, idx) => (
                   <tr key={`${item.orderId}-${idx}`}>
-                    <td>{item.vehicleModel || "—"}</td>
-                    <td>{item.licensePlate || "—"}</td>
-                    <td>{item.label}</td>
-                    <td style={{ textAlign: "right" }}>{item.price.toFixed(2)} EUR</td>
+                    <td>{item.position}</td>
+                    <td>{item.programNumber}</td>
+                    <td>
+                      {item.vin || "-"} / {item.licensePlate || "-"}
+                    </td>
+                    <td style={{ textAlign: "right" }}>{item.unitNet.toFixed(2)} EUR</td>
+                    <td style={{ textAlign: "right" }}>{item.extrasNet.toFixed(2)} EUR</td>
+                    <td style={{ textAlign: "right" }}>{item.totalNet.toFixed(2)} EUR</td>
                   </tr>
                 ))}
               </tbody>
@@ -111,9 +122,27 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
-        <div className="invoice-total">
-          <div className="invoice-total-label">Gesamt</div>
-          <div className="invoice-total-value">{invoice.total.toFixed(2)} EUR</div>
+        <div style={{ marginTop: 18 }}>
+          <h4>Legende Programme</h4>
+          <ul style={{ margin: "8px 0 0 18px", padding: 0 }}>
+            {programLegend.map(([program, label]) => (
+              <li key={program}>
+                {program}: {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="invoice-total" style={{ display: "grid", gap: 8, justifyItems: "end" }}>
+          <div>
+            <strong>Gesamtnetto:</strong> {invoice.subtotalNet.toFixed(2)} EUR
+          </div>
+          <div>
+            <strong>MwSt ({Math.round(invoice.taxRate * 100)}%):</strong> {invoice.taxAmount.toFixed(2)} EUR
+          </div>
+          <div className="invoice-total-value" style={{ fontSize: 28, marginTop: 0 }}>
+            Gesamtbrutto: {invoice.totalGross.toFixed(2)} EUR
+          </div>
         </div>
       </section>
     </main>

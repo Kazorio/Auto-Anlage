@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mutateDb, readDb } from "@/lib/storage";
+import { ProgramNumber } from "@/types/domain";
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -16,6 +17,14 @@ function parseCompletedAt(value: unknown): string | undefined {
   return parsed.toISOString();
 }
 
+function toProgramNumber(value: unknown): ProgramNumber | null {
+  const asNumber = Number(value);
+  if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 6) {
+    return asNumber as ProgramNumber;
+  }
+  return null;
+}
+
 export async function PUT(request: NextRequest, context: Context) {
   const { id } = await context.params;
   const body = await request.json();
@@ -24,6 +33,11 @@ export async function PUT(request: NextRequest, context: Context) {
   const currentOrder = existing.orders.find((order) => order.id === id);
   if (!currentOrder) {
     return NextResponse.json({ message: "Auftrag nicht gefunden." }, { status: 404 });
+  }
+
+  const requestedProgramNumber = body.programNumber !== undefined ? toProgramNumber(body.programNumber) : null;
+  if (body.programNumber !== undefined && !requestedProgramNumber) {
+    return NextResponse.json({ message: "Programm muss zwischen 1 und 6 liegen." }, { status: 400 });
   }
 
   const db = await mutateDb((current) => ({
@@ -38,7 +52,9 @@ export async function PUT(request: NextRequest, context: Context) {
       return {
         ...order,
         customerId: body.customerId ? String(body.customerId) : order.customerId,
+        vin: body.vin ? String(body.vin).toUpperCase() : order.vin,
         licensePlate: body.licensePlate ? String(body.licensePlate).toUpperCase() : order.licensePlate,
+        programNumber: requestedProgramNumber ?? order.programNumber,
         vehicleModel: body.vehicleModel ? String(body.vehicleModel) : order.vehicleModel,
         baseServiceId: body.baseServiceId ? String(body.baseServiceId) : order.baseServiceId,
         addonServiceIds: Array.isArray(body.addonServiceIds) ? body.addonServiceIds.map(String) : order.addonServiceIds,

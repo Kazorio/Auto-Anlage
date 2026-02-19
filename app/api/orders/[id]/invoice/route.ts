@@ -18,8 +18,11 @@ export async function POST(_: Request, context: Context) {
   }
 
   const customer = current.customers.find((item) => item.id === order.customerId);
-  const customerName = customer?.name || "Unbekannt";
-  const invoice = buildInvoiceFromOrder(order, customerName, current.invoices.length);
+  if (!customer) {
+    return NextResponse.json({ message: "Kunde zum Auftrag nicht gefunden." }, { status: 400 });
+  }
+
+  const invoice = buildInvoiceFromOrder(order, customer, current.invoices.length, current.companyProfile);
 
   const db = await mutateDb((dbState) => ({
     ...dbState,

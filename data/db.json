@@ -1,4 +1,10 @@
 {
+  "companyProfile": {
+    "name": "Auto-Anlage GmbH",
+    "address": "Musterstraße 1, 80331 München",
+    "email": "rechnung@auto-anlage.de",
+    "phone": "+49 89 000000"
+  },
   "customers": [
     {
       "id": "cust_bmw_muc",
@@ -34,9 +40,341 @@
   ],
   "orders": [
     {
+      "id": "ord_b062ed4a-dc07-4109-a5d5-b7575e814491",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100001",
+      "licensePlate": "M-TD-1001",
+      "programNumber": 1,
+      "vehicleModel": "Renault Clio",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 1",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_3ec5b5d8-c371-4608-97c6-183e2b6c6871",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100002",
+      "licensePlate": "M-TD-1002",
+      "programNumber": 2,
+      "vehicleModel": "Renault Captur",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 2",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_c553e801-c9dd-4a21-b7f7-f49f9c97b433",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100003",
+      "licensePlate": "M-TD-1003",
+      "programNumber": 3,
+      "vehicleModel": "Renault Megane",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "engine"
+      ],
+      "notes": "Testdatensatz 3",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_ce2aaf9f-ceca-4cfc-936d-6322ed8af8b7",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100004",
+      "licensePlate": "M-TD-1004",
+      "programNumber": 4,
+      "vehicleModel": "Renault Talisman",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Testdatensatz 4",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_cc2dcd0b-73d1-4cc3-88d7-a1f82d279c97",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100005",
+      "licensePlate": "M-TD-1005",
+      "programNumber": 5,
+      "vehicleModel": "Renault Scenic",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 5",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_382feca4-0ade-4936-8fe0-41315512c5ac",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100006",
+      "licensePlate": "M-TD-1006",
+      "programNumber": 6,
+      "vehicleModel": "Renault Kadjar",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 6",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_74c89352-cac7-4611-afa1-3d9d9694c0c2",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100007",
+      "licensePlate": "M-TD-1007",
+      "programNumber": 1,
+      "vehicleModel": "Renault Arkana",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "engine"
+      ],
+      "notes": "Testdatensatz 7",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_ddeb53bf-0aa1-4410-8052-cb3bf3f44710",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100008",
+      "licensePlate": "M-TD-1008",
+      "programNumber": 2,
+      "vehicleModel": "Renault Kangoo",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Testdatensatz 8",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_ed13eb2d-4924-4e3f-98b4-4e0ddf279eea",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100009",
+      "licensePlate": "M-TD-1009",
+      "programNumber": 3,
+      "vehicleModel": "Renault Zoe",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 9",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_e08c9ace-a604-4077-a1df-d7e782fe2cdc",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100010",
+      "licensePlate": "M-TD-1010",
+      "programNumber": 4,
+      "vehicleModel": "Renault Austral",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 10",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:57:56.186Z",
+      "completedAt": "2026-02-19T12:00:00.000Z"
+    },
+    {
+      "id": "ord_232533b4-6201-412a-944b-1c77f62f3472",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100001",
+      "licensePlate": "M-TD-1001",
+      "programNumber": 1,
+      "vehicleModel": "Renault Clio",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 1",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_f084a97a-7948-44cd-81a0-89adffe10972",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100002",
+      "licensePlate": "M-TD-1002",
+      "programNumber": 2,
+      "vehicleModel": "Renault Captur",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 2",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_d1346d80-e894-4793-8c93-69af7e9779f4",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100003",
+      "licensePlate": "M-TD-1003",
+      "programNumber": 3,
+      "vehicleModel": "Renault Megane",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "engine"
+      ],
+      "notes": "Testdatensatz 3",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_a986d9c8-fd98-454f-98e0-b0e3ad42e020",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100004",
+      "licensePlate": "M-TD-1004",
+      "programNumber": 4,
+      "vehicleModel": "Renault Talisman",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Testdatensatz 4",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_00ae43e4-8224-4446-a1d5-01e590d16326",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100005",
+      "licensePlate": "M-TD-1005",
+      "programNumber": 5,
+      "vehicleModel": "Renault Scenic",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 5",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_23a86eda-058d-41c0-9b66-5bf1ef8def0e",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100006",
+      "licensePlate": "M-TD-1006",
+      "programNumber": 6,
+      "vehicleModel": "Renault Kadjar",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 6",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_9aaf7d68-d901-47f2-8772-80e7c4947fa3",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100007",
+      "licensePlate": "M-TD-1007",
+      "programNumber": 1,
+      "vehicleModel": "Renault Arkana",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "engine"
+      ],
+      "notes": "Testdatensatz 7",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_ae7ad38f-0207-453f-9b60-e5d21e0c93f1",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100008",
+      "licensePlate": "M-TD-1008",
+      "programNumber": 2,
+      "vehicleModel": "Renault Kangoo",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Testdatensatz 8",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.878Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_e6acd838-d406-41a3-b043-f49a40dea1f2",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100009",
+      "licensePlate": "M-TD-1009",
+      "programNumber": 3,
+      "vehicleModel": "Renault Zoe",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Testdatensatz 9",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.879Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
+      "id": "ord_d6fbb40b-4883-4b5b-9637-39b9505a68f4",
+      "customerId": "cust_bmw_muc",
+      "vin": "WVWZZZ1JZYW100010",
+      "licensePlate": "M-TD-1010",
+      "programNumber": 4,
+      "vehicleModel": "Renault Austral",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "seal"
+      ],
+      "notes": "Testdatensatz 10",
+      "status": "completed",
+      "createdAt": "2026-02-19T13:54:02.890Z",
+      "completedAt": "2026-02-19T12:00:00.000Z",
+      "invoiceId": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3"
+    },
+    {
       "id": "ord_19204878-6077-4188-ac78-7f41f8c4a0db",
       "customerId": "cust_mercedes_hh",
+      "vin": "",
       "licensePlate": "CCCC",
+      "programNumber": 1,
       "vehicleModel": "cccc",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -49,7 +387,9 @@
     {
       "id": "ord_8ea1729a-cceb-4ea6-b419-25ff8b9d03cf",
       "customerId": "cust_mercedes_hh",
+      "vin": "",
       "licensePlate": "BBBB",
+      "programNumber": 1,
       "vehicleModel": "bbbb",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -62,7 +402,9 @@
     {
       "id": "ord_2b3fbbc9-d2ee-49af-8370-08e52b6bcdd2",
       "customerId": "cust_mercedes_hh",
+      "vin": "",
       "licensePlate": "AAAA",
+      "programNumber": 1,
       "vehicleModel": "aaaa",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -75,7 +417,9 @@
     {
       "id": "ord_ec9e9a76-903b-4ea6-a597-0937be63c7d6",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "SDS",
+      "programNumber": 1,
       "vehicleModel": "sdsd",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -86,7 +430,9 @@
     {
       "id": "ord_8c7fa078-b3ca-4d39-9926-5ace5c8db1b5",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "SDSDSD",
+      "programNumber": 1,
       "vehicleModel": "sdsdsd",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -97,7 +443,9 @@
     {
       "id": "ord_b806f08c-40c0-49db-bd0b-288092748afd",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "MASDSD",
+      "programNumber": 1,
       "vehicleModel": "sdsdsd",
       "baseServiceId": "basic",
       "addonServiceIds": [],
@@ -108,7 +456,9 @@
     {
       "id": "ord_001",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "M-BW-1234",
+      "programNumber": 2,
       "vehicleModel": "BMW 320d",
       "baseServiceId": "premium",
       "addonServiceIds": [
@@ -123,7 +473,9 @@
     {
       "id": "ord_002",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "M-BW-5678",
+      "programNumber": 3,
       "vehicleModel": "BMW X5",
       "baseServiceId": "showroom",
       "addonServiceIds": [
@@ -137,7 +489,9 @@
     {
       "id": "ord_003",
       "customerId": "cust_bmw_muc",
+      "vin": "",
       "licensePlate": "M-BW-9012",
+      "programNumber": 2,
       "vehicleModel": "BMW M3",
       "baseServiceId": "premium",
       "addonServiceIds": [
@@ -152,7 +506,9 @@
     {
       "id": "ord_004",
       "customerId": "cust_audi_ffm",
+      "vin": "",
       "licensePlate": "F-AU-2345",
+      "programNumber": 1,
       "vehicleModel": "Audi A4 Avant",
       "baseServiceId": "basic",
       "addonServiceIds": [
@@ -167,7 +523,9 @@
     {
       "id": "ord_005",
       "customerId": "cust_audi_ffm",
+      "vin": "",
       "licensePlate": "F-AU-6789",
+      "programNumber": 3,
       "vehicleModel": "Audi Q7",
       "baseServiceId": "showroom",
       "addonServiceIds": [
@@ -183,7 +541,9 @@
     {
       "id": "ord_006",
       "customerId": "cust_mercedes_hh",
+      "vin": "",
       "licensePlate": "HH-MB-1111",
+      "programNumber": 2,
       "vehicleModel": "Mercedes C200",
       "baseServiceId": "premium",
       "addonServiceIds": [],
@@ -194,7 +554,9 @@
     {
       "id": "ord_007",
       "customerId": "cust_mercedes_hh",
+      "vin": "",
       "licensePlate": "HH-MB-2222",
+      "programNumber": 1,
       "vehicleModel": "Mercedes E-Klasse",
       "baseServiceId": "basic",
       "addonServiceIds": [
@@ -210,6 +572,12 @@
     {
       "id": "inv_d4838f03-839e-4697-ab0a-5fd00e7fa098",
       "invoiceNumber": "RE-2026-00001",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
       "customerId": "cust_audi_ffm",
       "customerName": "Audi Zentrum Frankfurt",
       "orderIds": [
@@ -218,41 +586,39 @@
       ],
       "lineItems": [
         {
+          "position": 1,
           "orderId": "ord_004",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "",
           "licensePlate": "F-AU-2345",
-          "vehicleModel": "Audi A4 Avant",
-          "label": "Innen- & Außenreinigung",
-          "price": 79
+          "unitNet": 79,
+          "extrasNet": 39,
+          "totalNet": 118,
+          "extrasLabels": [
+            "Ozonbehandlung"
+          ]
         },
         {
-          "orderId": "ord_004",
-          "licensePlate": "F-AU-2345",
-          "vehicleModel": "Audi A4 Avant",
-          "label": "Ozonbehandlung",
-          "price": 39
-        },
-        {
+          "position": 2,
           "orderId": "ord_005",
+          "programNumber": 3,
+          "programLabel": "Showroom-Komplettpaket",
+          "vin": "",
           "licensePlate": "F-AU-6789",
-          "vehicleModel": "Audi Q7",
-          "label": "Showroom-Komplettpaket",
-          "price": 249
-        },
-        {
-          "orderId": "ord_005",
-          "licensePlate": "F-AU-6789",
-          "vehicleModel": "Audi Q7",
-          "label": "Versiegelung",
-          "price": 89
-        },
-        {
-          "orderId": "ord_005",
-          "licensePlate": "F-AU-6789",
-          "vehicleModel": "Audi Q7",
-          "label": "Motorraumreinigung",
-          "price": 49
+          "unitNet": 249,
+          "extrasNet": 138,
+          "totalNet": 387,
+          "extrasLabels": [
+            "Versiegelung",
+            "Motorraumreinigung"
+          ]
         }
       ],
+      "subtotalNet": 505,
+      "taxRate": 0.19,
+      "taxAmount": 95.95,
+      "totalGross": 505,
       "subtotal": 505,
       "total": 505,
       "status": "open",
@@ -261,6 +627,12 @@
     {
       "id": "inv_6bbcf9da-1745-43c7-ba63-ccf01b85ed8b",
       "invoiceNumber": "RE-2026-00002",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
       "customerId": "cust_bmw_muc",
       "customerName": "BMW Niederlassung München",
       "orderIds": [
@@ -268,20 +640,24 @@
       ],
       "lineItems": [
         {
+          "position": 1,
           "orderId": "ord_003",
+          "programNumber": 2,
+          "programLabel": "Premium-Aufbereitung",
+          "vin": "",
           "licensePlate": "M-BW-9012",
-          "vehicleModel": "BMW M3",
-          "label": "Premium-Aufbereitung",
-          "price": 149
-        },
-        {
-          "orderId": "ord_003",
-          "licensePlate": "M-BW-9012",
-          "vehicleModel": "BMW M3",
-          "label": "Lackpolitur",
-          "price": 59
+          "unitNet": 149,
+          "extrasNet": 59,
+          "totalNet": 208,
+          "extrasLabels": [
+            "Lackpolitur"
+          ]
         }
       ],
+      "subtotalNet": 208,
+      "taxRate": 0.19,
+      "taxAmount": 39.52,
+      "totalGross": 208,
       "subtotal": 208,
       "total": 208,
       "status": "open",
@@ -290,6 +666,12 @@
     {
       "id": "inv_fb1a5624-293b-40eb-8116-593c22044fee",
       "invoiceNumber": "RE-2026-00003",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
       "customerId": "cust_mercedes_hh",
       "customerName": "Mercedes-Benz Hamburg",
       "orderIds": [
@@ -299,32 +681,225 @@
       ],
       "lineItems": [
         {
+          "position": 1,
           "orderId": "ord_19204878-6077-4188-ac78-7f41f8c4a0db",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "",
           "licensePlate": "CCCC",
-          "vehicleModel": "cccc",
-          "label": "Innen- & Außenreinigung",
-          "price": 79
+          "unitNet": 79,
+          "extrasNet": 0,
+          "totalNet": 79,
+          "extrasLabels": []
         },
         {
+          "position": 2,
           "orderId": "ord_8ea1729a-cceb-4ea6-b419-25ff8b9d03cf",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "",
           "licensePlate": "BBBB",
-          "vehicleModel": "bbbb",
-          "label": "Innen- & Außenreinigung",
-          "price": 79
+          "unitNet": 79,
+          "extrasNet": 0,
+          "totalNet": 79,
+          "extrasLabels": []
         },
         {
+          "position": 3,
           "orderId": "ord_2b3fbbc9-d2ee-49af-8370-08e52b6bcdd2",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "",
           "licensePlate": "AAAA",
-          "vehicleModel": "aaaa",
-          "label": "Innen- & Außenreinigung",
-          "price": 79
+          "unitNet": 79,
+          "extrasNet": 0,
+          "totalNet": 79,
+          "extrasLabels": []
         }
       ],
+      "subtotalNet": 237,
+      "taxRate": 0.19,
+      "taxAmount": 45.03,
+      "totalGross": 237,
       "subtotal": 237,
       "total": 237,
       "status": "paid",
       "createdAt": "2026-02-18T16:17:58.048Z",
       "paidAt": "2026-02-18T16:41:00.354Z"
+    },
+    {
+      "id": "inv_189bfd39-e410-47a7-bdf9-429c5986e4b3",
+      "invoiceNumber": "RE-2026-00004",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
+      "customerId": "cust_bmw_muc",
+      "customerName": "BMW Niederlassung München",
+      "orderIds": [
+        "ord_232533b4-6201-412a-944b-1c77f62f3472",
+        "ord_f084a97a-7948-44cd-81a0-89adffe10972",
+        "ord_d1346d80-e894-4793-8c93-69af7e9779f4",
+        "ord_a986d9c8-fd98-454f-98e0-b0e3ad42e020",
+        "ord_00ae43e4-8224-4446-a1d5-01e590d16326",
+        "ord_23a86eda-058d-41c0-9b66-5bf1ef8def0e",
+        "ord_9aaf7d68-d901-47f2-8772-80e7c4947fa3",
+        "ord_ae7ad38f-0207-453f-9b60-e5d21e0c93f1",
+        "ord_e6acd838-d406-41a3-b043-f49a40dea1f2",
+        "ord_d6fbb40b-4883-4b5b-9637-39b9505a68f4"
+      ],
+      "lineItems": [
+        {
+          "position": 1,
+          "orderId": "ord_232533b4-6201-412a-944b-1c77f62f3472",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "WVWZZZ1JZYW100001",
+          "licensePlate": "M-TD-1001",
+          "unitNet": 79,
+          "extrasNet": 59,
+          "totalNet": 138,
+          "extrasLabels": [
+            "Lackpolitur"
+          ]
+        },
+        {
+          "position": 2,
+          "orderId": "ord_f084a97a-7948-44cd-81a0-89adffe10972",
+          "programNumber": 2,
+          "programLabel": "Premium-Aufbereitung",
+          "vin": "WVWZZZ1JZYW100002",
+          "licensePlate": "M-TD-1002",
+          "unitNet": 149,
+          "extrasNet": 89,
+          "totalNet": 238,
+          "extrasLabels": [
+            "Versiegelung"
+          ]
+        },
+        {
+          "position": 3,
+          "orderId": "ord_d1346d80-e894-4793-8c93-69af7e9779f4",
+          "programNumber": 3,
+          "programLabel": "Showroom-Komplettpaket",
+          "vin": "WVWZZZ1JZYW100003",
+          "licensePlate": "M-TD-1003",
+          "unitNet": 249,
+          "extrasNet": 49,
+          "totalNet": 298,
+          "extrasLabels": [
+            "Motorraumreinigung"
+          ]
+        },
+        {
+          "position": 4,
+          "orderId": "ord_a986d9c8-fd98-454f-98e0-b0e3ad42e020",
+          "programNumber": 4,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "WVWZZZ1JZYW100004",
+          "licensePlate": "M-TD-1004",
+          "unitNet": 79,
+          "extrasNet": 39,
+          "totalNet": 118,
+          "extrasLabels": [
+            "Ozonbehandlung"
+          ]
+        },
+        {
+          "position": 5,
+          "orderId": "ord_00ae43e4-8224-4446-a1d5-01e590d16326",
+          "programNumber": 5,
+          "programLabel": "Premium-Aufbereitung",
+          "vin": "WVWZZZ1JZYW100005",
+          "licensePlate": "M-TD-1005",
+          "unitNet": 149,
+          "extrasNet": 59,
+          "totalNet": 208,
+          "extrasLabels": [
+            "Lackpolitur"
+          ]
+        },
+        {
+          "position": 6,
+          "orderId": "ord_23a86eda-058d-41c0-9b66-5bf1ef8def0e",
+          "programNumber": 6,
+          "programLabel": "Showroom-Komplettpaket",
+          "vin": "WVWZZZ1JZYW100006",
+          "licensePlate": "M-TD-1006",
+          "unitNet": 249,
+          "extrasNet": 89,
+          "totalNet": 338,
+          "extrasLabels": [
+            "Versiegelung"
+          ]
+        },
+        {
+          "position": 7,
+          "orderId": "ord_9aaf7d68-d901-47f2-8772-80e7c4947fa3",
+          "programNumber": 1,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "WVWZZZ1JZYW100007",
+          "licensePlate": "M-TD-1007",
+          "unitNet": 79,
+          "extrasNet": 49,
+          "totalNet": 128,
+          "extrasLabels": [
+            "Motorraumreinigung"
+          ]
+        },
+        {
+          "position": 8,
+          "orderId": "ord_ae7ad38f-0207-453f-9b60-e5d21e0c93f1",
+          "programNumber": 2,
+          "programLabel": "Premium-Aufbereitung",
+          "vin": "WVWZZZ1JZYW100008",
+          "licensePlate": "M-TD-1008",
+          "unitNet": 149,
+          "extrasNet": 39,
+          "totalNet": 188,
+          "extrasLabels": [
+            "Ozonbehandlung"
+          ]
+        },
+        {
+          "position": 9,
+          "orderId": "ord_e6acd838-d406-41a3-b043-f49a40dea1f2",
+          "programNumber": 3,
+          "programLabel": "Showroom-Komplettpaket",
+          "vin": "WVWZZZ1JZYW100009",
+          "licensePlate": "M-TD-1009",
+          "unitNet": 249,
+          "extrasNet": 59,
+          "totalNet": 308,
+          "extrasLabels": [
+            "Lackpolitur"
+          ]
+        },
+        {
+          "position": 10,
+          "orderId": "ord_d6fbb40b-4883-4b5b-9637-39b9505a68f4",
+          "programNumber": 4,
+          "programLabel": "Innen- & Außenreinigung",
+          "vin": "WVWZZZ1JZYW100010",
+          "licensePlate": "M-TD-1010",
+          "unitNet": 79,
+          "extrasNet": 89,
+          "totalNet": 168,
+          "extrasLabels": [
+            "Versiegelung"
+          ]
+        }
+      ],
+      "subtotalNet": 2130,
+      "taxRate": 0.19,
+      "taxAmount": 404.7,
+      "totalGross": 2534.7,
+      "subtotal": 2130,
+      "total": 2534.7,
+      "status": "open",
+      "createdAt": "2026-02-19T13:54:40.014Z"
     }
   ]
 }

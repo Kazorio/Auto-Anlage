@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createOrderId, mutateDb, readDb } from "@/lib/storage";
-import { Order } from "@/types/domain";
+import { Order, ProgramNumber } from "@/types/domain";
 
 type OrderInput = {
+  vin?: string;
   licensePlate?: string;
+  programNumber?: number;
   vehicleModel?: string;
   baseServiceId?: string;
   addonServiceIds?: string[];
@@ -23,11 +25,21 @@ function parseCompletedAt(value: unknown): string | undefined {
   return parsed.toISOString();
 }
 
+function toProgramNumber(value: unknown): ProgramNumber | null {
+  const asNumber = Number(value);
+  if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 6) {
+    return asNumber as ProgramNumber;
+  }
+  return null;
+}
+
 function toOrderLine(input: OrderInput, customerId: string, completedAt: string): Order {
   return {
     id: createOrderId(),
     customerId,
+    vin: String(input.vin || "").toUpperCase(),
     licensePlate: String(input.licensePlate || "").toUpperCase(),
+    programNumber: (toProgramNumber(input.programNumber) ?? 1) as ProgramNumber,
     vehicleModel: String(input.vehicleModel || ""),
     baseServiceId: String(input.baseServiceId || ""),
     addonServiceIds: Array.isArray(input.addonServiceIds) ? input.addonServiceIds.map(String) : [],
@@ -67,7 +79,9 @@ export async function POST(request: NextRequest) {
     ? body.orders
     : [
         {
+          vin: body.vin,
           licensePlate: body.licensePlate,
+          programNumber: body.programNumber,
           vehicleModel: body.vehicleModel,
           baseServiceId: body.baseServiceId,
           addonServiceIds: body.addonServiceIds,
@@ -80,12 +94,17 @@ export async function POST(request: NextRequest) {
   }
 
   const invalidIndex = incomingLines.findIndex(
-    (line) => !line.licensePlate || !line.vehicleModel || !line.baseServiceId
+    (line) =>
+      !line.vin ||
+      !line.licensePlate ||
+      !line.vehicleModel ||
+      !line.baseServiceId ||
+      !toProgramNumber(line.programNumber)
   );
 
   if (invalidIndex !== -1) {
     return NextResponse.json(
-      { message: `Pflichtfelder fehlen in Posten ${invalidIndex + 1}.` },
+      { message: `Pflichtfelder fehlen in Posten ${invalidIndex + 1} (VIN, KZ, Modell, Programm, Basis-Service).` },
       { status: 400 }
     );
   }

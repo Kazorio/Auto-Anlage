@@ -18,7 +18,7 @@ export default function InvoiceListPage() {
   }, []);
 
   const openTotal = useMemo(
-    () => invoices.filter((i) => i.status === "open").reduce((sum, i) => sum + i.total, 0),
+    () => invoices.filter((i) => i.status === "open").reduce((sum, i) => sum + i.totalGross, 0),
     [invoices]
   );
 
@@ -49,7 +49,7 @@ export default function InvoiceListPage() {
                 <th>Nr.</th>
                 <th>Kunde</th>
                 <th>Anzahl Aufträge</th>
-                <th>Summe</th>
+                <th>Gesamt (brutto)</th>
                 <th>Status</th>
                 <th>Aktionen</th>
               </tr>
@@ -60,7 +60,7 @@ export default function InvoiceListPage() {
                   <td>{invoice.invoiceNumber}</td>
                   <td>{invoice.customerName}</td>
                   <td>{invoice.orderIds.length}</td>
-                  <td>{invoice.total.toFixed(2)} EUR</td>
+                  <td>{invoice.totalGross.toFixed(2)} EUR</td>
                   <td>
                     <span className={`badge ${invoice.status === "paid" ? "badge-paid" : "badge-open"}`}>
                       {invoice.status === "paid" ? "Bezahlt" : "Offen"}
@@ -86,3 +86,4 @@ export default function InvoiceListPage() {
     </main>
   );
 }
+
