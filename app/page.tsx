@@ -510,6 +510,7 @@ export default function HomePage() {
                 <th>Kunde</th>
                 <th>Kennzeichen</th>
                 <th>Modell</th>
+                <th>Prog.</th>
                 <th>Datum</th>
                 <th>Rechnung</th>
                 <th>Aktionen</th>
@@ -518,7 +519,7 @@ export default function HomePage() {
             <tbody>
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "center", color: "#6b7280" }}>
+                  <td colSpan={7} style={{ textAlign: "center", color: "#6b7280" }}>
                     Keine Aufträge in dieser Ansicht.
                   </td>
                 </tr>
@@ -531,6 +532,7 @@ export default function HomePage() {
                       <td>{orderWithCustomerName.customerName || "Unbekannt"}</td>
                       <td>{order.licensePlate}</td>
                       <td>{order.vehicleModel}</td>
+                      <td>{order.programNumber}</td>
                       <td>{formatOrderDate(order.completedAt ?? order.createdAt)}</td>
                       <td>
                         {linkedInvoice ? (
@@ -569,6 +571,7 @@ export default function HomePage() {
     </main>
   );
 }
+
 
 
 

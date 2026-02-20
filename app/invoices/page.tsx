@@ -169,7 +169,7 @@ export default function InvoiceListPage() {
         </div>
 
         <div className="table-wrap">
-          <table>
+          <table className="invoice-table">
             <thead>
               <tr>
                 <th>Nr.</th>
@@ -222,7 +222,7 @@ export default function InvoiceListPage() {
                             </a>
                             {invoice.runtimeStage === "created" ? (
                               <button className="secondary" type="button" onClick={() => markSent(invoice.id)}>
-                                Als abgeschickt markieren
+                                Abgeschickt
                               </button>
                             ) : null}
                             {invoice.runtimeStage === "sent" || invoice.runtimeStage === "overdue" ? (
@@ -244,3 +244,5 @@ export default function InvoiceListPage() {
     </main>
   );
 }
+
+
