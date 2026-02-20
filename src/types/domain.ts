@@ -1,5 +1,5 @@
 export type OrderStatus = "new" | "completed";
-export type InvoiceStatus = "open" | "paid";
+export type InvoiceStatus = "created" | "sent" | "paid";
 export type ProgramNumber = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type ServiceItem = {
@@ -70,6 +70,7 @@ export type Invoice = {
   total: number;
   status: InvoiceStatus;
   createdAt: string;
+  sentAt?: string;
   paidAt?: string;
 };
 

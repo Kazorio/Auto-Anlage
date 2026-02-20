@@ -18,15 +18,15 @@ export async function PATCH(_: Request, context: Context) {
 
       found = true;
 
-      if (invoice.status !== "sent") {
+      if (invoice.status !== "created") {
         invalidTransition = true;
         return invoice;
       }
 
       return {
         ...invoice,
-        status: "paid",
-        paidAt: new Date().toISOString()
+        status: "sent",
+        sentAt: new Date().toISOString()
       };
     })
   }));
@@ -36,7 +36,7 @@ export async function PATCH(_: Request, context: Context) {
   }
 
   if (invalidTransition) {
-    return NextResponse.json({ message: "Zahlung kann nur für abgeschickte Rechnungen bestätigt werden." }, { status: 400 });
+    return NextResponse.json({ message: "Rechnung kann nur aus 'Erstellt' abgeschickt werden." }, { status: 400 });
   }
 
   return NextResponse.json({ invoices: db.invoices, orders: db.orders });

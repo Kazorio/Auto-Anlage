@@ -153,6 +153,20 @@ function normalizeInvoice(value: unknown, db: Database, index: number): Invoice 
 
   const customer = db.customers.find((item) => item.id === source.customerId);
 
+  const rawStatus = String(source.status || "");
+  const normalizedStatus: Invoice["status"] =
+    rawStatus === "paid"
+      ? "paid"
+      : rawStatus === "sent"
+        ? "sent"
+        : rawStatus === "created"
+          ? "created"
+          : rawStatus === "open"
+            ? source.sentAt
+              ? "sent"
+              : "created"
+            : "created";
+
   return {
     id: String(source.id || createInvoiceId()),
     invoiceNumber: String(source.invoiceNumber || createInvoiceNumber(index)),
@@ -167,8 +181,9 @@ function normalizeInvoice(value: unknown, db: Database, index: number): Invoice 
     totalGross,
     subtotal: subtotalNet,
     total: totalGross,
-    status: source.status === "paid" ? "paid" : "open",
+    status: normalizedStatus,
     createdAt: String(source.createdAt || new Date().toISOString()),
+    sentAt: source.sentAt ? String(source.sentAt) : undefined,
     paidAt: source.paidAt ? String(source.paidAt) : undefined
   };
 }
@@ -278,7 +293,7 @@ export function buildInvoiceFromOrders(
     totalGross,
     subtotal: subtotalNet,
     total: totalGross,
-    status: "open",
+    status: "created",
     createdAt: new Date().toISOString()
   };
 }

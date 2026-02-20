@@ -194,6 +194,43 @@ legend {
   background: var(--primary-hover);
   transform: translateY(-1px);
 }
+.page-header .header-nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+}
+
+.page-header .header-tab {
+  padding: 6px 2px 10px;
+  background: transparent;
+  color: var(--text-soft);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  font-weight: 600;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.page-header .header-tab:hover {
+  background: transparent;
+  color: var(--text);
+  border-bottom-color: #d1d5db;
+  transform: none;
+}
+
+.page-header .header-tab-active {
+  background: transparent;
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+
+.page-header .header-tab-active:hover {
+  background: transparent;
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
 
 .card {
   background: var(--surface);
@@ -241,6 +278,39 @@ legend {
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+}
+.invoice-actions-row {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.invoice-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.invoice-action-link:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.invoice-actions-row button {
+  min-height: 40px;
+  white-space: nowrap;
 }
 
 .table-wrap {
@@ -440,17 +510,27 @@ tbody tr:hover {
 }
 
 .order-line-addon-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 8px;
   cursor: pointer;
   font-weight: 500;
+  text-align: left;
 }
 
 .order-line-addon-checkbox {
   width: auto !important;
   min-width: 0 !important;
-  margin: 0;
+  margin: 2px 0 0;
+  justify-self: center;
+}
+
+.order-line-addon-text {
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: left;
+  word-break: break-word;
 }
 
 .order-line-inline-remove {
@@ -587,4 +667,72 @@ button.button-blue:hover {
     font-size: 11px;
     padding: 7px 8px;
   }
+}
+
+
+
+
+
+
+
+.invoice-status-message {
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.invoice-filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.invoice-filter-button {
+  background: var(--surface);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  padding: 9px 14px;
+}
+
+.invoice-filter-button:hover {
+  background: var(--bg);
+  color: var(--text);
+  transform: none;
+  box-shadow: none;
+}
+
+.invoice-filter-button-active {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+  border-color: var(--accent);
+}
+
+.invoice-filter-button-active:hover {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+}
+
+.invoice-group-row td {
+  background: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+.badge-created {
+  background: var(--bg);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+}
+
+.badge-sent {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+}
+
+.badge-overdue {
+  background: var(--warn-bg);
+  color: #78350f;
 }

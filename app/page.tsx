@@ -3,6 +3,7 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { getInvoiceRuntimeStage, getInvoiceStatusLabel } from "@/lib/invoices";
 import { Customer, Invoice, Order } from "@/types/domain";
 
 type WeeklyInvoiceState = {
@@ -10,6 +11,14 @@ type WeeklyInvoiceState = {
 };
 
 type OrderView = "uninvoiced" | "invoiced";
+type WeeklyOutstandingTile = {
+  key: string;
+  weekStart: Date;
+  week: number;
+  year: number;
+  openCount: number;
+  isSelected: boolean;
+};
 
 function getIsoWeekStart(date: Date): Date {
   const value = new Date(date);
@@ -43,6 +52,11 @@ function getIsoWeekInfo(date: Date): { week: number; year: number } {
   return { week, year };
 }
 
+function getIsoWeekKey(date: Date): string {
+  const weekStart = getIsoWeekStart(date);
+  const { week, year } = getIsoWeekInfo(weekStart);
+  return `${year}-W${String(week).padStart(2, "0")}`;
+}
 function formatDateDE(date: Date): string {
   const dd = String(date.getDate()).padStart(2, "0");
   const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -104,13 +118,73 @@ export default function HomePage() {
     const totalOrders = orders.length;
     const notInvoiced = orders.filter((order) => !order.invoiceId).length;
     const totalInvoices = invoices.length;
-    const unpaid = invoices.filter((invoice) => invoice.status === "open").length;
+    const unpaid = invoices.filter((invoice) => invoice.status !== "paid").length;
     return { totalOrders, notInvoiced, totalInvoices, unpaid };
   }, [orders, invoices]);
 
   const weekStart = useMemo(() => getIsoWeekStart(selectedWeekStart), [selectedWeekStart]);
   const weekEnd = useMemo(() => getIsoWeekEnd(weekStart), [weekStart]);
   const isoWeek = useMemo(() => getIsoWeekInfo(weekStart), [weekStart]);
+  const weeklyOutstandingTiles = useMemo<WeeklyOutstandingTile[]>(() => {
+    const currentWeekStart = getIsoWeekStart(new Date());
+    const maxLookbackStart = shiftIsoWeek(currentWeekStart, -39);
+
+    const countByWeek = new Map<string, { weekStart: Date; count: number }>();
+    let earliestWeekStart: Date | null = null;
+
+    for (const order of orders) {
+      if (order.invoiceId) {
+        continue;
+      }
+
+      const referenceDate = new Date(order.completedAt ?? order.createdAt);
+      if (Number.isNaN(referenceDate.getTime())) {
+        continue;
+      }
+
+      const orderWeekStart = getIsoWeekStart(referenceDate);
+      if (orderWeekStart.getTime() > currentWeekStart.getTime()) {
+        continue;
+      }
+
+      const boundedWeekStart =
+        orderWeekStart.getTime() < maxLookbackStart.getTime() ? maxLookbackStart : orderWeekStart;
+
+      const key = getIsoWeekKey(boundedWeekStart);
+      const existing = countByWeek.get(key);
+
+      if (existing) {
+        existing.count += 1;
+      } else {
+        countByWeek.set(key, { weekStart: boundedWeekStart, count: 1 });
+      }
+
+      if (!earliestWeekStart || boundedWeekStart.getTime() < earliestWeekStart.getTime()) {
+        earliestWeekStart = boundedWeekStart;
+      }
+    }
+
+    const rangeStart = earliestWeekStart ?? currentWeekStart;
+    const selectedKey = getIsoWeekKey(selectedWeekStart);
+    const tiles: WeeklyOutstandingTile[] = [];
+
+    for (let cursor = new Date(rangeStart); cursor.getTime() <= currentWeekStart.getTime(); cursor = shiftIsoWeek(cursor, 1)) {
+      const key = getIsoWeekKey(cursor);
+      const info = getIsoWeekInfo(cursor);
+      const count = countByWeek.get(key)?.count ?? 0;
+
+      tiles.push({
+        key,
+        weekStart: new Date(cursor),
+        week: info.week,
+        year: info.year,
+        openCount: count,
+        isSelected: key === selectedKey
+      });
+    }
+
+    return tiles.reverse();
+  }, [orders, selectedWeekStart]);
 
   const customersWithUninvoicedOrders = useMemo(() => {
     const customerMap = new Map<string, { customer: Customer; orderCount: number }>();
@@ -146,6 +220,10 @@ export default function HomePage() {
 
   function changeWeek(delta: number) {
     setSelectedWeekStart((prev) => shiftIsoWeek(prev, delta));
+    setWeeklyInvoiceState({ selectedCustomerIds: [] });
+  }
+  function selectWeek(weekStartDate: Date) {
+    setSelectedWeekStart(getIsoWeekStart(weekStartDate));
     setWeeklyInvoiceState({ selectedCustomerIds: [] });
   }
 
@@ -217,14 +295,15 @@ export default function HomePage() {
   return (
     <main className={`${styles.container} ${styles.pageStack}`}>
       <div className={styles.pageHeader}>
-        <h1>Auto-Aufbereitung: Aufträge & Rechnungen</h1>
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <button type="button" onClick={openWeeklyModal} style={{ fontWeight: "bold" }}>
-            📊 Wochenabrechnung erstellen
-          </button>
-          <Link href="/orders/new">Neuen Auftrag erfassen</Link>
-          <Link href="/invoices">Zum Rechnungsbereich</Link>
-        </div>
+        <h1>Auto-Aufbereitung</h1>
+        <nav className={styles.headerNav} aria-label="Hauptnavigation">
+          <Link href="/" className={`${styles.headerTab} ${styles.headerTabActive}`}>
+            Aufträge
+          </Link>
+          <Link href="/invoices" className={styles.headerTab}>
+            Rechnungen
+          </Link>
+        </nav>
       </div>
 
       <section className={`${styles.grid} ${styles.grid4}`}>
@@ -318,6 +397,25 @@ export default function HomePage() {
             </div>
 
             <div style={{ marginTop: 20 }}>
+              <h3>Kalenderwochen mit offenen Aufträgen</h3>
+              <div className={styles.weekTiles}>
+                {weeklyOutstandingTiles.map((tile) => (
+                  <button
+                    key={tile.key}
+                    type="button"
+                    className={`${styles.weekTile} ${tile.isSelected ? styles.weekTileActive : ""} ${
+                      tile.openCount === 0 ? styles.weekTileEmpty : ""
+                    }`}
+                    onClick={() => selectWeek(tile.weekStart)}
+                    disabled={isCreatingInvoices}
+                  >
+                    <span className={styles.weekTileLabel}>KW {tile.week}/{tile.year}</span>
+                    {tile.openCount > 0 ? <span className={styles.weekTileCount}>{tile.openCount}</span> : null}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginTop: 20 }}>
               <h3>Kunden mit nicht abgerechneten Aufträgen:</h3>
               {customersWithUninvoicedOrders.length === 0 ? (
                 <p style={{ color: "#666", fontStyle: "italic" }}>
@@ -360,37 +458,49 @@ export default function HomePage() {
       )}
 
       <section className={styles.card}>
-        <h2>Aufträge</h2>
-
-        <div className={styles.tabs} style={{ marginTop: 12, marginBottom: 12 }}>
-          <button
-            type="button"
-            className={`${styles.tabButton} ${orderView === "uninvoiced" ? styles.tabButtonActive : ""}`}
-            onClick={() => setOrderView("uninvoiced")}
-          >
-            Nicht in Rechnung überführt ({uninvoicedOrders.length})
-          </button>
-          <button
-            type="button"
-            className={`${styles.tabButton} ${orderView === "invoiced" ? styles.tabButtonActive : ""}`}
-            onClick={() => setOrderView("invoiced")}
-          >
-            In Rechnung überführt ({invoicedOrders.length})
-          </button>
+        <div className={styles.ordersHeader}>
+          <h2>Aufträge</h2>
+          <div className={styles.ordersActions}>
+            <button type="button" onClick={openWeeklyModal}>
+              Abrechnung erstellen
+            </button>
+            <Link href="/orders/new" className={styles.actionLink}>
+              Neuen Auftrag erfassen
+            </Link>
+          </div>
         </div>
 
-        <div style={{ marginBottom: 12, maxWidth: 320 }}>
-          <label>
-            Kunde filtern
-            <select value={customerFilterId} onChange={(e) => setCustomerFilterId(e.target.value)}>
-              <option value="all">Alle Kunden</option>
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className={styles.orderControls}>
+          <div className={styles.tabs}>
+            <button
+              type="button"
+              className={`${styles.tabButton} ${orderView === "uninvoiced" ? styles.tabButtonActive : ""}`}
+              onClick={() => setOrderView("uninvoiced")}
+            >
+              Nicht in Rechnung überführt ({uninvoicedOrders.length})
+            </button>
+            <button
+              type="button"
+              className={`${styles.tabButton} ${orderView === "invoiced" ? styles.tabButtonActive : ""}`}
+              onClick={() => setOrderView("invoiced")}
+            >
+              In Rechnung überführt ({invoicedOrders.length})
+            </button>
+          </div>
+
+          <div className={styles.filterWrap}>
+            <label>
+              Kunde filtern
+              <select value={customerFilterId} onChange={(e) => setCustomerFilterId(e.target.value)}>
+                <option value="all">Alle Kunden</option>
+                {customers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
 
         <div className={styles.tableWrap} style={{ marginTop: 12 }}>
@@ -427,10 +537,16 @@ export default function HomePage() {
                           <Link href={`/invoices/${order.invoiceId}`}>
                             <span
                               className={`${styles.badge} ${
-                                linkedInvoice.status === "paid" ? styles.badgePaid : styles.badgeOpen
+                                getInvoiceRuntimeStage(linkedInvoice) === "paid"
+                                  ? styles.badgePaid
+                                  : getInvoiceRuntimeStage(linkedInvoice) === "overdue"
+                                    ? styles.badgeOverdue
+                                    : getInvoiceRuntimeStage(linkedInvoice) === "sent"
+                                      ? styles.badgeSent
+                                      : styles.badgeOpen
                               }`}
                             >
-                              {linkedInvoice.invoiceNumber} ({linkedInvoice.status === "paid" ? "Bezahlt" : "Offen"})
+                              {linkedInvoice.invoiceNumber} ({getInvoiceStatusLabel(getInvoiceRuntimeStage(linkedInvoice))})
                             </span>
                           </Link>
                         ) : (
@@ -453,3 +569,6 @@ export default function HomePage() {
     </main>
   );
 }
+
+
+

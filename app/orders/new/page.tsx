@@ -357,7 +357,14 @@ function NewOrderPageContent() {
     <main className="container grid page-stack">
       <div className="page-header">
         <h1>{isEditMode ? "Auftrag bearbeiten" : "Aufträge erfassen"}</h1>
-        <Link href="/">Zurück zum Dashboard</Link>
+        <nav className="header-nav" aria-label="Hauptnavigation">
+          <Link href="/" className="header-tab header-tab-active">
+            Aufträge
+          </Link>
+          <Link href="/invoices" className="header-tab">
+            Rechnungen
+          </Link>
+        </nav>
       </div>
 
       {message ? (
@@ -558,7 +565,9 @@ function NewOrderPageContent() {
                                     checked={line.addonServiceIds.includes(addon.id)}
                                     onChange={() => toggleAddon(index, addon.id)}
                                   />
-                                  {addon.name} (+{addon.price.toFixed(2)} EUR)
+                                  <span className="order-line-addon-text">
+                                    {addon.name} (+{addon.price.toFixed(2)} EUR)
+                                  </span>
                                 </label>
                               ))}
                             </div>
@@ -639,6 +648,8 @@ export default function NewOrderPage() {
     </Suspense>
   );
 }
+
+
 
 
 

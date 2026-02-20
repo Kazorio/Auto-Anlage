@@ -36,9 +36,122 @@
       "email": "christian.kazor@gmail.com",
       "phone": "",
       "createdAt": "2026-02-18T16:57:14.038Z"
+    },
+    {
+      "id": "cust_na1k1fov",
+      "name": "Usecase Testkunde Nord",
+      "shortName": "UC Nord",
+      "email": "ucnord@example.de",
+      "phone": "+49 89 55555",
+      "createdAt": "2026-02-20T07:33:22.566Z"
+    },
+    {
+      "id": "cust_9cilxmji",
+      "name": "Usecase Testkunde Süd",
+      "shortName": "UC Süd",
+      "email": "ucsüd@example.de",
+      "phone": "+49 89 55555",
+      "createdAt": "2026-02-20T07:33:22.566Z"
     }
   ],
   "orders": [
+    {
+      "id": "ord_pp5uxba8",
+      "customerId": "cust_9cilxmji",
+      "vin": "WVWZZZCF3O14R6",
+      "licensePlate": "M-UC-2003",
+      "programNumber": 1,
+      "vehicleModel": "Opel Corsa",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Offener Auftrag ohne Rechnung",
+      "status": "completed",
+      "createdAt": "2026-02-17T07:33:22.566Z",
+      "completedAt": "2026-02-17T07:33:22.566Z"
+    },
+    {
+      "id": "ord_urh85cj9",
+      "customerId": "cust_na1k1fov",
+      "vin": "WVWZZZM7LFHY8A",
+      "licensePlate": "M-UC-1003",
+      "programNumber": 1,
+      "vehicleModel": "Seat Leon",
+      "baseServiceId": "basic",
+      "addonServiceIds": [],
+      "notes": "Offener Auftrag ohne Rechnung",
+      "status": "completed",
+      "createdAt": "2026-02-19T07:33:22.566Z",
+      "completedAt": "2026-02-19T07:33:22.566Z"
+    },
+    {
+      "id": "ord_xlyyzaky",
+      "customerId": "cust_9cilxmji",
+      "vin": "WVWZZZD48GFJNE",
+      "licensePlate": "M-UC-2002",
+      "programNumber": 2,
+      "vehicleModel": "Skoda Octavia",
+      "baseServiceId": "premium",
+      "addonServiceIds": [],
+      "notes": "Bezahlt",
+      "status": "completed",
+      "createdAt": "2026-02-02T07:33:22.566Z",
+      "completedAt": "2026-02-02T07:33:22.566Z",
+      "invoiceId": "inv_t25itq71"
+    },
+    {
+      "id": "ord_81ztmda3",
+      "customerId": "cust_9cilxmji",
+      "vin": "WVWZZZFWZQXWRW",
+      "licensePlate": "M-UC-2001",
+      "programNumber": 3,
+      "vehicleModel": "BMW X1",
+      "baseServiceId": "showroom",
+      "addonServiceIds": [
+        "engine",
+        "ceramic"
+      ],
+      "notes": "Überfällig ohne Zahlung",
+      "status": "completed",
+      "createdAt": "2026-01-23T07:33:22.566Z",
+      "completedAt": "2026-01-23T07:33:22.566Z",
+      "invoiceId": "inv_i1pkx3ml"
+    },
+    {
+      "id": "ord_8ctxs1k3",
+      "customerId": "cust_na1k1fov",
+      "vin": "WVWZZZMM6TW9ZK",
+      "licensePlate": "M-UC-1002",
+      "programNumber": 2,
+      "vehicleModel": "Audi A4",
+      "baseServiceId": "premium",
+      "addonServiceIds": [
+        "ozone"
+      ],
+      "notes": "Abgeschickt, Zahlung ausstehend",
+      "status": "completed",
+      "createdAt": "2026-02-10T07:33:22.566Z",
+      "completedAt": "2026-02-10T07:33:22.566Z",
+      "invoiceId": "inv_ec4zepcy"
+    },
+    {
+      "id": "ord_9pyn2rqs",
+      "customerId": "cust_na1k1fov",
+      "vin": "WVWZZZA07N6L58",
+      "licensePlate": "M-UC-1001",
+      "programNumber": 1,
+      "vehicleModel": "VW Golf",
+      "baseServiceId": "basic",
+      "addonServiceIds": [
+        "polish"
+      ],
+      "notes": "Neu erstellt, noch nicht versandt",
+      "status": "completed",
+      "createdAt": "2026-02-18T07:33:22.566Z",
+      "completedAt": "2026-02-18T07:33:22.566Z",
+      "invoiceId": "inv_zon5ntie"
+    },
     {
       "id": "ord_b062ed4a-dc07-4109-a5d5-b7575e814491",
       "customerId": "cust_bmw_muc",
@@ -570,6 +683,165 @@
   ],
   "invoices": [
     {
+      "id": "inv_t25itq71",
+      "invoiceNumber": "RE-TEST-0008",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
+      "customerId": "cust_9cilxmji",
+      "customerName": "Usecase Testkunde Süd",
+      "orderIds": [
+        "ord_xlyyzaky"
+      ],
+      "lineItems": [
+        {
+          "position": 1,
+          "orderId": "ord_xlyyzaky",
+          "programNumber": 2,
+          "programLabel": "premium",
+          "vin": "WVWZZZD48GFJNE",
+          "licensePlate": "M-UC-2002",
+          "unitNet": 299,
+          "extrasNet": 0,
+          "totalNet": 299,
+          "extrasLabels": []
+        }
+      ],
+      "subtotalNet": 299,
+      "taxRate": 0.19,
+      "taxAmount": 56.81,
+      "totalGross": 355.81,
+      "subtotal": 299,
+      "total": 355.81,
+      "status": "paid",
+      "createdAt": "2026-02-02T07:33:22.566Z",
+      "sentAt": "2026-02-03T07:33:22.566Z",
+      "paidAt": "2026-02-15T07:33:22.566Z"
+    },
+    {
+      "id": "inv_i1pkx3ml",
+      "invoiceNumber": "RE-TEST-0007",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
+      "customerId": "cust_9cilxmji",
+      "customerName": "Usecase Testkunde Süd",
+      "orderIds": [
+        "ord_81ztmda3"
+      ],
+      "lineItems": [
+        {
+          "position": 1,
+          "orderId": "ord_81ztmda3",
+          "programNumber": 3,
+          "programLabel": "showroom",
+          "vin": "WVWZZZFWZQXWRW",
+          "licensePlate": "M-UC-2001",
+          "unitNet": 399,
+          "extrasNet": 138,
+          "totalNet": 537,
+          "extrasLabels": [
+            "Motorraumreinigung",
+            "Versiegelung"
+          ]
+        }
+      ],
+      "subtotalNet": 537,
+      "taxRate": 0.19,
+      "taxAmount": 102.03,
+      "totalGross": 639.03,
+      "subtotal": 537,
+      "total": 639.03,
+      "status": "sent",
+      "createdAt": "2026-01-23T07:33:22.566Z",
+      "sentAt": "2026-01-31T07:33:22.566Z"
+    },
+    {
+      "id": "inv_ec4zepcy",
+      "invoiceNumber": "RE-TEST-0006",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
+      "customerId": "cust_na1k1fov",
+      "customerName": "Usecase Testkunde Nord",
+      "orderIds": [
+        "ord_8ctxs1k3"
+      ],
+      "lineItems": [
+        {
+          "position": 1,
+          "orderId": "ord_8ctxs1k3",
+          "programNumber": 2,
+          "programLabel": "premium",
+          "vin": "WVWZZZMM6TW9ZK",
+          "licensePlate": "M-UC-1002",
+          "unitNet": 299,
+          "extrasNet": 39,
+          "totalNet": 338,
+          "extrasLabels": [
+            "Ozonbehandlung"
+          ]
+        }
+      ],
+      "subtotalNet": 338,
+      "taxRate": 0.19,
+      "taxAmount": 64.22,
+      "totalGross": 402.22,
+      "subtotal": 338,
+      "total": 402.22,
+      "status": "sent",
+      "createdAt": "2026-02-10T07:33:22.566Z",
+      "sentAt": "2026-02-11T07:33:22.566Z"
+    },
+    {
+      "id": "inv_zon5ntie",
+      "invoiceNumber": "RE-TEST-0005",
+      "issuer": {
+        "name": "Auto-Anlage GmbH",
+        "address": "Musterstraße 1, 80331 München",
+        "email": "rechnung@auto-anlage.de",
+        "phone": "+49 89 000000"
+      },
+      "customerId": "cust_na1k1fov",
+      "customerName": "Usecase Testkunde Nord",
+      "orderIds": [
+        "ord_9pyn2rqs"
+      ],
+      "lineItems": [
+        {
+          "position": 1,
+          "orderId": "ord_9pyn2rqs",
+          "programNumber": 1,
+          "programLabel": "basic",
+          "vin": "WVWZZZA07N6L58",
+          "licensePlate": "M-UC-1001",
+          "unitNet": 199,
+          "extrasNet": 59,
+          "totalNet": 258,
+          "extrasLabels": [
+            "Lackpolitur"
+          ]
+        }
+      ],
+      "subtotalNet": 258,
+      "taxRate": 0.19,
+      "taxAmount": 49.02,
+      "totalGross": 307.02,
+      "subtotal": 258,
+      "total": 307.02,
+      "status": "created",
+      "createdAt": "2026-02-18T07:33:22.566Z"
+    },
+    {
       "id": "inv_d4838f03-839e-4697-ab0a-5fd00e7fa098",
       "invoiceNumber": "RE-2026-00001",
       "issuer": {
@@ -621,7 +893,7 @@
       "totalGross": 505,
       "subtotal": 505,
       "total": 505,
-      "status": "open",
+      "status": "created",
       "createdAt": "2026-02-17T18:38:44.708Z"
     },
     {
@@ -660,7 +932,7 @@
       "totalGross": 208,
       "subtotal": 208,
       "total": 208,
-      "status": "open",
+      "status": "created",
       "createdAt": "2026-02-17T18:43:30.753Z"
     },
     {
@@ -898,8 +1170,9 @@
       "totalGross": 2534.7,
       "subtotal": 2130,
       "total": 2534.7,
-      "status": "open",
-      "createdAt": "2026-02-19T13:54:40.014Z"
+      "status": "sent",
+      "createdAt": "2026-02-19T13:54:40.014Z",
+      "sentAt": "2026-02-20T07:30:58.222Z"
     }
   ]
 }

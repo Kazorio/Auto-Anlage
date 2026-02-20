@@ -2,7 +2,22 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { getInvoiceDueDate, getInvoiceRuntimeStage, getInvoiceStatusLabel, InvoiceRuntimeStage } from "@/lib/invoices";
 import { Invoice } from "@/types/domain";
+
+function getStatusClass(stage: InvoiceRuntimeStage): string {
+  if (stage === "paid") return "badge-paid";
+  if (stage === "sent") return "badge-sent";
+  if (stage === "overdue") return "badge-overdue";
+  return "badge-created";
+}
+
+function formatDate(value?: string): string {
+  if (!value) return "-";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "-";
+  return parsed.toLocaleDateString("de-DE");
+}
 
 export default function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [invoice, setInvoice] = useState<Invoice | null>(null);
@@ -19,6 +34,16 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
       setInvoice(data.invoice);
     });
   }, [params]);
+
+  const runtimeStage = useMemo(() => {
+    if (!invoice) return "created" as InvoiceRuntimeStage;
+    return getInvoiceRuntimeStage(invoice);
+  }, [invoice]);
+
+  const dueDate = useMemo(() => {
+    if (!invoice) return null;
+    return getInvoiceDueDate(invoice);
+  }, [invoice]);
 
   const programLegend = useMemo(() => {
     if (!invoice) return [] as Array<[number, string]>;
@@ -50,6 +75,17 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
     <main className="container grid page-stack invoice-sheet">
       <div className="page-header no-print">
         <h1>Rechnung {invoice.invoiceNumber}</h1>
+        <nav className="header-nav" aria-label="Hauptnavigation">
+          <Link href="/" className="header-tab">
+            Aufträge
+          </Link>
+          <Link href="/invoices" className="header-tab header-tab-active">
+            Rechnungen
+          </Link>
+        </nav>
+      </div>
+
+      <section className="card no-print" style={{ paddingTop: 20, paddingBottom: 20 }}>
         <div className="actions">
           <Link href="/invoices">Zurück</Link>
           <a href={`/api/invoices/${invoice.id}/pdf`}>PDF herunterladen</a>
@@ -57,7 +93,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
             Drucken
           </button>
         </div>
-      </div>
+      </section>
 
       <section className="card">
         <div className="invoice-header">
@@ -82,10 +118,16 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
           <div className="invoice-meta-item">
             <h4>Status</h4>
             <p>
-              <span className={`badge ${invoice.status === "paid" ? "badge-paid" : "badge-open"}`}>
-                {invoice.status === "paid" ? "Bezahlt" : "Offen"}
-              </span>
+              <span className={`badge ${getStatusClass(runtimeStage)}`}>{getInvoiceStatusLabel(runtimeStage)}</span>
             </p>
+          </div>
+          <div className="invoice-meta-item">
+            <h4>Versandt am</h4>
+            <p>{formatDate(invoice.sentAt)}</p>
+          </div>
+          <div className="invoice-meta-item">
+            <h4>Fällig bis</h4>
+            <p>{dueDate ? dueDate.toLocaleDateString("de-DE") : "-"}</p>
           </div>
         </div>
 
